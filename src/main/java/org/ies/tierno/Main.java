@@ -1,0 +1,30 @@
+package org.ies.tierno;
+
+import org.ies.tierno.models.*;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Luggage> luggages = List.of(
+                new Luggage(1, "Maleta1"),
+                new Luggage(2, "Maleta2"));
+
+        Map<Integer, Passenger> passengerMap = new HashMap<>();
+        passengerMap.put(1, new Passenger("22425554j", 2, luggages));
+        Map<Integer, Flight> flightMap = new HashMap<>();
+        flightMap.put(1, new Flight(1, "es", "usa", LocalDate.now(), passengerMap));
+        List<Customer> customers = List.of(
+                new Customer("22425554j", "pepe", "FERNANDEZ")
+        );
+        Airline airline = new Airline("Aerolinea", flightMap, customers);
+
+        airline.passengersFromAFlight(1).stream()
+                .forEach(passengers->System.out.println(passengers));
+    }
+}
