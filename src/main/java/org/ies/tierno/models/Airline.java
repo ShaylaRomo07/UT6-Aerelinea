@@ -16,8 +16,15 @@ public class Airline {
     private List<Customer> customers;
 
     public List<Passenger> passengersFromAFlight(int flightNumber) {
-        return flightsByFlightNumber.get(flightNumber).getPassengerBySeatNumber().values().stream().collect(Collectors.toList());
+        return flightsByFlightNumber.get(flightNumber).getPassengerBySeatNumber().values().stream().toList();
     }
 
-//    public List<Customer> customerInFlight
+    public List<Customer> customerInFlight(int numberFlight) {
+        List<String> passengersNifs = passengersFromAFlight(numberFlight).stream()
+                .map(passenger -> passenger.getNif())
+                .toList();
+        return customers.stream().filter(customer -> passengersNifs.contains(customer))
+                .toList();
+
+    }
 }
