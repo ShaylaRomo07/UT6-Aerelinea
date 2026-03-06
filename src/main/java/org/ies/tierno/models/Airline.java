@@ -2,11 +2,12 @@ package org.ies.tierno.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.log4j.Log4j;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
+@Log4j
 @Data
 @AllArgsConstructor
 public class Airline {
@@ -34,16 +35,31 @@ public class Airline {
     }
 
     public Integer findSeatNumber(int flightNumber, String nif) {
-        List<Passenger> passengers = passengersFromAFlight(flightNumber);
-        for (Passenger passenger : passengers) {
-            if (passenger.getNif().equals(nif)) {
-                return passenger.getSeatNumber();
+        if (flightsByFlightNumber.containsKey(flightNumber)) {
+            List<Passenger> passengers = passengersFromAFlight(flightNumber);
+            for (Passenger passenger : passengers) {
+                if (passenger.getNif().equals(nif)) {
+                    return passenger.getSeatNumber();
+                }
             }
+            return null;
         }
         return null;
     }
 
     public void addLuggage(int flightNumber, String nif, Luggage luggage) {
-        List<Passenger> passengers = passengersFromAFlight(flightNumber);
+        if (flightsByFlightNumber.containsKey(flightNumber)) {
+            List<Passenger> passengers = passengersFromAFlight(flightNumber);
+            for (Passenger passenger : passengers) {
+                if (passenger.getNif().equals(nif)) {
+                    passenger.getLuggages().add(luggage);
+                } else {
+                    log.error("No se encuentra el pasajero con ese nif");
+                }
+            }
+        } else {
+            log.error("No se encuentra el vuelo con ese numero de vuelo");
+        }
     }
+
 }
