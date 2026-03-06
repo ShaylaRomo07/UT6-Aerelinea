@@ -3,10 +3,9 @@ package org.ies.tierno.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Data
 @AllArgsConstructor
@@ -26,5 +25,19 @@ public class Airline {
         return customers.stream().filter(customer -> passengersNifs.contains(customer))
                 .toList();
 
+    }
+
+    public List<Customer> customersWithThisSurname(String surname) {
+        return customers.stream()
+                .filter(customer -> customer.getSurname().equals(surname))
+                .toList();
+    }
+
+    public Optional<Integer> findSeatNumber(int flightNumber, String nif) {
+        List<Passenger> passengers = passengersFromAFlight(flightNumber);
+        return passengers.stream()
+                .filter(passenger -> passenger.getNif().equals(nif))
+                .map(passenger -> passenger.getSeatNumber())
+                .findFirst();
     }
 }
