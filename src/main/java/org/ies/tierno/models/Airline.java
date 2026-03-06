@@ -35,12 +35,15 @@ public class Airline {
 
     public Integer findSeatNumber(int flightNumber, String nif) {
         List<Passenger> passengers = passengersFromAFlight(flightNumber);
-
         for (Passenger passenger : passengers) {
             if (passenger.getNif().equals(nif)) {
                 return passenger.getSeatNumber();
             }
         }
         return null;
+    }
+
+    public void addLuggage(int flightNumber, String nif, Luggage luggage) {
+        List<Passenger> passengers = passengersFromAFlight(flightNumber);
     }
 }
