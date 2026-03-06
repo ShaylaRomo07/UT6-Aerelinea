@@ -33,11 +33,16 @@ public class Airline {
                 .toList();
     }
 
-    public Optional<Integer> findSeatNumber(int flightNumber, String nif) {
+    public Integer findSeatNumber(int flightNumber, String nif) {
         List<Passenger> passengers = passengersFromAFlight(flightNumber);
-        return passengers.stream()
+        Optional<Integer> seatNumberOptional = passengers.stream()
                 .filter(passenger -> passenger.getNif().equals(nif))
                 .map(passenger -> passenger.getSeatNumber())
                 .findFirst();
+        Integer seatNumber = seatNumberOptional.get();
+        if (seatNumber != null) {
+            return seatNumber;
+        }
+        return null;
     }
 }
