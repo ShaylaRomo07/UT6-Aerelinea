@@ -21,12 +21,16 @@ public class Airline {
     }
 
     public List<Customer> customerInFlight(int numberFlight) {
-        List<String> passengersNifs = passengersFromAFlight(numberFlight).stream()
-                .map(passenger -> passenger.getNif())
-                .toList();
-        return customers.stream().filter(customer -> passengersNifs.contains(customer))
-                .toList();
-
+        List<Passenger> passengers = passengersFromAFlight(numberFlight);
+        List<Customer> customersInFlight = new ArrayList<>();
+        for (Passenger passenger : passengers) {
+            for (Customer customer : customers) {
+                if (customer.getNif().equals(passenger.getNif())) {
+                    customersInFlight.add(customer);
+                }
+            }
+        }
+        return customers;
     }
 
     public List<Customer> customersWithThisSurname(String surname) {

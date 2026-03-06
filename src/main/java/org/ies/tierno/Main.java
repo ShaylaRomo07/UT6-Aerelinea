@@ -25,6 +25,12 @@ public class Main {
         Airline airline = new Airline("Aerolinea", flightMap, customers);
 
         airline.passengersFromAFlight(1).stream()
-                .forEach(passengers->System.out.println(passengers));
+                .forEach(passengers -> System.out.println(passengers));
+        System.out.println(airline.customerInFlight(1));
+        System.out.println(airline.customersWithThisSurname("FERNANDEZ"));
+        System.out.println(airline.findSeatNumber(1,"22425554j"));
+        airline.addLuggage(1,"22425554j",new Luggage(3,"Maleta Rara"));
+        System.out.println(airline.flightsOfACustomer("22425554j"));
+
     }
 }
