@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.log4j.Log4j;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,4 +63,19 @@ public class Airline {
         }
     }
 
+    public List<Flight> flightsOfACustomer(String nif) {
+        List<Flight> flights = new ArrayList<>();
+        for (Customer customer : customers) {
+            if (customer.getNif().equals(nif)) {
+                for (Flight flight : flightsByFlightNumber.values()) {
+                    for (Passenger passenger : flight.getPassengerBySeatNumber().values()) {
+                        if (passenger.getNif().equals(nif)) {
+                            flights.add(flight);
+                        }
+                    }
+                }
+            }
+        }
+        return flights;
+    }
 }
