@@ -17,24 +17,36 @@ public class Airline {
     private List<Customer> customers;
 
     public List<Passenger> passengersFromAFlight(int flightNumber) {
-        return flightsByFlightNumber.get(flightNumber).getPassengerBySeatNumber().values().stream().toList();
+        return flightsByFlightNumber
+                .get(flightNumber)
+                .getPassengerBySeatNumber()
+                .values()
+                .stream()
+                .toList();
     }
 
     public List<Customer> customerInFlight(int numberFlight) {
-        List<Passenger> passengers = passengersFromAFlight(numberFlight);
-        List<Customer> customersInFlight = new ArrayList<>();
-        for (Passenger passenger : passengers) {
-            for (Customer customer : customers) {
-                if (customer.getNif().equals(passenger.getNif())) {
-                    customersInFlight.add(customer);
-                }
-            }
-        }
-        return customers;
+        List<String> nifs = passengersFromAFlight(numberFlight).stream()
+                .map(passenger -> passenger.getNif())
+                .toList();
+        return customers.stream()
+                .filter(customer -> nifs.contains(customer.getNif()))
+                .toList();
+//        List<Passenger> passengers = passengersFromAFlight(numberFlight);
+//        List<Customer> customersInFlight = new ArrayList<>();
+//        for (Passenger passenger : passengers) {
+//            for (Customer customer : customers) {
+//                if (customer.getNif().equals(passenger.getNif())) {
+//                    customersInFlight.add(customer);
+//                }
+//            }
+//        }
+//        return customersInFlight;
     }
 
     public List<Customer> customersWithThisSurname(String surname) {
-        return customers.stream()
+        return customers
+                .stream()
                 .filter(customer -> customer.getSurname().equals(surname))
                 .toList();
     }
@@ -52,19 +64,23 @@ public class Airline {
         return null;
     }
 
-    public void addLuggage(int flightNumber, String nif, Luggage luggage) {
+    public boolean addLuggage(int flightNumber, String nif, Luggage luggage) {
         if (flightsByFlightNumber.containsKey(flightNumber)) {
             List<Passenger> passengers = passengersFromAFlight(flightNumber);
-            for (Passenger passenger : passengers) {
-                if (passenger.getNif().equals(nif)) {
-                    passenger.getLuggages().add(luggage);
-                } else {
-                    log.error("No se encuentra el pasajero con ese nif");
+                for (Passenger passenger : passengers) {
+                    if (passenger.getNif().equals(nif)) {
+                        List<Luggage> luggages = new ArrayList<>();
+                        luggages.addAll(passenger.getLuggages());
+                        luggages.add(luggage);
+                        passenger.setLuggages(luggages);
+                        return true;
+                    }
                 }
-            }
+                log.error("No se encuentra un pasajero con ese nif");
         } else {
             log.error("No se encuentra el vuelo con ese numero de vuelo");
         }
+        return false;
     }
 
     public List<Flight> flightsOfACustomer(String nif) {
