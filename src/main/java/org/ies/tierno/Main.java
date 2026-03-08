@@ -22,7 +22,7 @@ public class Main {
         flightMap.put(1, new Flight(1, "es", "usa", LocalDate.now(), passengerMap));
         List<Customer> customers = List.of(
                 new Customer("22425554j", "pepe", "FERNANDEZ"),
-                new Customer("3334k", "juan", "dsfdg")
+                new Customer("jdfhdjf2", "juan", "dsfdg")
         );
         Airline airline = new Airline("Aerolinea", flightMap, customers);
 
@@ -32,7 +32,7 @@ public class Main {
         System.out.println(airline.customersWithThisSurname("FERNANDEZ"));
         System.out.println(airline.findSeatNumber(1, "22425554j"));
         System.out.println(airline.flightsOfACustomer("22425554j"));
-        airline.addLuggage(5, "22425554j", new Luggage(3, "Maleta Rara"));
+        airline.addLuggage(1, "2242554j", new Luggage(3, "Maleta Rara"));
         System.out.println(passengerMap);
     }
 }

@@ -67,16 +67,16 @@ public class Airline {
     public boolean addLuggage(int flightNumber, String nif, Luggage luggage) {
         if (flightsByFlightNumber.containsKey(flightNumber)) {
             List<Passenger> passengers = passengersFromAFlight(flightNumber);
-                for (Passenger passenger : passengers) {
-                    if (passenger.getNif().equals(nif)) {
-                        List<Luggage> luggages = new ArrayList<>();
-                        luggages.addAll(passenger.getLuggages());
-                        luggages.add(luggage);
-                        passenger.setLuggages(luggages);
-                        return true;
-                    }
+            for (Passenger passenger : passengers) {
+                if (passenger.getNif().equals(nif)) {
+                    List<Luggage> luggages = new ArrayList<>();
+                    luggages.addAll(passenger.getLuggages());
+                    luggages.add(luggage);
+                    passenger.setLuggages(luggages);
+                    return true;
                 }
-                log.error("No se encuentra un pasajero con ese nif");
+            }
+            log.error("No se encuentra un pasajero con ese nif");
         } else {
             log.error("No se encuentra el vuelo con ese numero de vuelo");
         }
